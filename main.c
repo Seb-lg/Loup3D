@@ -1,25 +1,42 @@
 #include "./include/graphics.h"
+#include "./include/gaming.h"
+#include "./include/inputs.h"
+#include "./include/conf.h"
 
-// int main(int argc, char** argv) {
-//     printf("Start");
-// }
+double angle = 0.0;
 
-// Clears the current window and draws a triangle.
-void display() {
+void gameUpdate(GLFWwindow* window) {
+	char** map = InitMap(50);
+	int posX = 10;
+	int posY = 10;
+	// double angle = 0.0;
 
-  // Set every pixel in the frame buffer to the current clear color.
-  glClear(GL_COLOR_BUFFER_BIT);
+	while (!glfwWindowShouldClose(window)) {
+		glClearColor(0,0,0,0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		// glLineWidth(100);
 
-  // Drawing is done by specifying a sequence of vertices.  The way these
-  // vertices are connected (or not connected) depends on the argument to
-  // glBegin.  GL_POLYGON constructs a filled polygon.
-  DrawLine()
-  // Flush drawing command buffer to make drawing happen as soon as possible.
-  glFlush();
+		for (int i = 0; i < Width; ++i) {
+			double valueH = Height / RayCast(posX, posY, angle + ((90.0 / (double)Width)*(double)i) , map, 50);
+			DrawVerticalLine(i, valueH, createColor(1,0,0));
+		}
+
+		glfwSwapBuffers(window);
+		// angle += 0.01;
+		glfwPollEvents();
+		printf("Angle: %f %f\r", angle, glfwGetTime());
+	}
 }
 
-// Initializes GLUT, the display mode, and main window; registers callbacks;
-// enters the main event loop.
+
 int main(int ac, char** av) {
-    InitGraphics(ac, av, &display);
+	//Init GLFW Window
+	GLFWwindow* window = InitGraphics(ac, av);
+	//Init keyboard input
+	glfwSetKeyCallback(window, key_callback);
+	glOrtho(0, Width, Height, 0, 0, 1);
+
+	//Start main loop
+	gameUpdate(window);
 }

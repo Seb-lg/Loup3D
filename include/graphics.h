@@ -2,16 +2,17 @@
 #define __MY_GRAPHICS__
 
 
-#ifdef __APPLE_CC__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
+#include <GLFW/glfw3.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "./struct/color.h"
 
 
-void InitGraphics(int ac, char **av, void*);
+GLFWwindow* InitGraphics(int ac, char **av);
 
-void DrawLine(int x, int y, int a, int b);
+void DrawVerticalLine(int pos, int height, struct color color);
 
 
 #endif

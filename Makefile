@@ -1,11 +1,14 @@
 SRC	=	main.c				\
 		src/graphics.c		\
+		src/gaming.c		\
+		src/inputs.c		\
+		src/struct/color.c	\
 
 OBJ = $(SRC:.c=.o)
 
 CFLAGS += -g -Werror -Wextra -I./include
 
-CFLAGS += -lglut -lGL
+CFLAGS += -lglfw -lGL -lm
 
 NAME = Loup3D
 

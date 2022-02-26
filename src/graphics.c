@@ -1,30 +1,36 @@
 #include "../include/graphics.h"
+#include "../include/conf.h"
 
-void InitGraphics(int ac, char **av, void *display) {
-
-    // Use a single buffered window in RGB mode (as opposed to a double-buffered
-    // window or color-index mode).
-    glutInit(&ac, av);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-
-    // Position window at (80,80)-(480,380) and give it a title.
-    glutInitWindowPosition(80, 80);
-    glutInitWindowSize(400, 300);
-    glutCreateWindow("A Simple Triangle");
-
-    // Tell GLUT that whenever the main window needs to be repainted that it
-    // should call the function display().
-    glutDisplayFunc(display);
-
-    // Tell GLUT to start reading and processing events.  This function
-    // never returns; the program only exits when the user closes the main
-    // window or kills the process.
-    glutMainLoop();
+void ErrorCallback(int code, const char* message) {
+    printf("Code: %d, Message: %s\n", code, message);
+    exit(42);
 }
 
-void DrawLine(int x, int y, int a, int b) {
+GLFWwindow* InitGraphics(int ac, char **av){
+    if (!glfwInit()){
+        printf("Initialisation failed: glfw\n");
+        exit(0);
+    }
+
+    glfwSetErrorCallback(ErrorCallback);
+
+    GLFWwindow* window = glfwCreateWindow(Width, Height, "Loup3D", NULL, NULL);
+    if (!window)
+    {
+        printf("Failed to create window\n");
+        exit(0);
+    }
+    glfwMakeContextCurrent(window);
+    return window;
+}
+
+void DrawVerticalLine(int pos, int height, struct color color) {
     glBegin(GL_LINES);
-        glColor3f(1,0,1);glVertex2i(1,0);
-        glColor3f(1,1,1);glVertex2i(0,1);
+		glColor3f(color.r,color.g,color.b);
+        glVertex3f(pos,Height/2 - height/2,0.0);
+        // glVertex3f(00, 200,0.0);
+		glColor3f(color.r,color.g,color.b);
+        glVertex3f(pos,Height/2 + height/2,0.0);
+        // glVertex3f(400, 100,0.0);
     glEnd();
 }

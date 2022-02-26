@@ -1,5 +1,6 @@
 Loup3D
-
+.vscode
+tests
 
 # Prerequisites
 *.d
