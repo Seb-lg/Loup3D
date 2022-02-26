@@ -23,7 +23,7 @@ char** InitMap(int size) {
 
     for( int y = 0; y < size; ++y) {
         for(int x = 0; x < size; ++x) {
-            map[x][y] = (rand()%10 == 4 ? 'W': ' ');
+            // map[x][y] = (rand()%10 == 4 ? 'W': ' ');
             printf("%c",map[x][y]);
         }
         printf("\n");
@@ -32,19 +32,23 @@ char** InitMap(int size) {
     return map;
 }
 
-double RayCast(double posX, double posY, double angle, char** map, int size) {
-    double rayX = posX;
-    double rayY = posY;
+float RayCast(float posX, float posY, float angle, char** map, int size) {
+    float rayX = posX;
+    float rayY = posY;
 
-    double rayCos = cos(angle);
-    double raySin = sin(angle);
+    float rayCos = cos(angle * (M_PI / 180.0));
+    float raySin = sin(angle * (M_PI / 180.0));
     
+    // printf("cos %f sin %f\n", rayCos, raySin);
+    // printf("pos %f pos %f\n", rayX, rayY);
     while ( rayX >= 0 && rayY >= 0 &&
             rayX < size && rayY < size &&
             map[(int)floor(rayX)][(int)floor(rayY)] == ' '){
         rayX += rayCos;
         rayY += raySin;
+        // printf("%f %f\n", rayX, rayY);
     }
+    // exit(0);
 
     return sqrt(pow(posX - rayX, 2) + pow(posY - rayY, 2));
 }

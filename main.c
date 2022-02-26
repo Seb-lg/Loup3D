@@ -3,13 +3,13 @@
 #include "./include/inputs.h"
 #include "./include/conf.h"
 
-double angle = 0.0;
+float angle = 0.0;
 
 void gameUpdate(GLFWwindow* window) {
 	char** map = InitMap(50);
-	int posX = 10;
-	int posY = 10;
-	// double angle = 0.0;
+	float posX = 10;
+	float posY = 10;
+	// float angle = 0.0;
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0,0,0,0);
@@ -18,12 +18,13 @@ void gameUpdate(GLFWwindow* window) {
 		// glLineWidth(100);
 
 		for (int i = 0; i < Width; ++i) {
-			double valueH = Height / RayCast(posX, posY, angle + ((90.0 / (double)Width)*(double)i) , map, 50);
+			// printf("cast %f %f\n", posX, posY);
+			float valueH = RayCast(posX, posY, angle + ((90.0 / (float)Width)*(float)i) , map, 50);
 			DrawVerticalLine(i, valueH, createColor(1,0,0));
 		}
 
 		glfwSwapBuffers(window);
-		// angle += 0.01;
+		angle += 0.1;
 		glfwPollEvents();
 		printf("Angle: %f %f\r", angle, glfwGetTime());
 	}

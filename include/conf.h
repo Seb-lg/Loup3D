@@ -4,6 +4,6 @@
 static int Height = 480;
 static int Width = 640;
 
-extern double angle;
+extern float angle;
 
 #endif
