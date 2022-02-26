@@ -1,13 +1,16 @@
-SRC	= main.c
+SRC	=	main.c				\
+		src/graphics.c		\
 
 OBJ = $(SRC:.c=.o)
 
 CFLAGS += -g -Werror -Wextra -I./include
 
+CFLAGS += -lglut -lGL
+
 NAME = Loup3D
 
 $(NAME): $(OBJ)
-		gcc -o $(NAME) $(OBJ)
+		gcc $(CFLAGS) -o $(NAME) $(OBJ)
 
 all: $(NAME)
 
