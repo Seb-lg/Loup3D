@@ -3,6 +3,7 @@ SRC	=	main.c				\
 		src/gaming.c		\
 		src/inputs.c		\
 		src/struct/color.c	\
+		src/struct/player.c	\
 
 OBJ = $(SRC:.c=.o)
 
