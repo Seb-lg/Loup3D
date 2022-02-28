@@ -1,6 +1,6 @@
 #include "../../include/struct/color.h"
 
-struct color createColor(int r, int g, int b) {
+struct color createColor(float r, float g, float b) {
     struct color tmp;
     tmp.r = r;
     tmp.g = g;

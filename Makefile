@@ -11,6 +11,8 @@ OBJ = $(SRC:.c=.o)
 
 CFLAGS += -g -Werror -Wextra -I./include
 
+# CFLAGS += -o3
+
 CFLAGS += -lglfw -lGL -lm
 
 NAME = Loup3D

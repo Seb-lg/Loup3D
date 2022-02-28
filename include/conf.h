@@ -3,8 +3,9 @@
 
 #include "./struct/player.h"
 
-static int Height = 1440;
-static int Width = 2540;
+static int Height = 480;
+static int Width = 640;
+static int MapSize = 100;
 
 extern struct player player;
 

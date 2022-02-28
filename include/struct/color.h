@@ -2,11 +2,11 @@
 #define __COLOR__
 
 struct color {
-    int r;
-    int g;
-    int b;
+    float r;
+    float g;
+    float b;
 };
 
-struct color createColor(int r, int g, int b);
+struct color createColor(float r, float g, float b);
 
 #endif

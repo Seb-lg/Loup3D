@@ -1,3 +1,5 @@
+#include <string.h>
+#include <time.h>
 #include <math.h>
 
 #include "./include/struct/player.h"
@@ -12,64 +14,91 @@ void gameUpdate(GLFWwindow* window) {
 	int mapSize = 100;
 	float fov = 60.;
 	char** map = InitMap(mapSize);
+	int nbFrame = 0;
 
-
-	// float angle = 0.0;
-	RayCast(22.1517525, 33.0306244, 270.0, map, mapSize);
-	// exit(0);
-	printf("--------------------------------------------------------\n");
-	RayCast(player.posX, player.posY, 0., map, mapSize);
-	printf("--------------------------------------------------------\n");
-	RayCast(player.posX, player.posY, 90., map, mapSize);
-	printf("--------------------------------------------------------\n");
-	RayCast(player.posX, player.posY, 270., map, mapSize);
-	printf("--------------------------------------------------------\n");
-	RayCast(player.posX, player.posY, 360., map, mapSize);
-
-
+	struct timespec tstart={0,0}, tend={0,0};
+    clock_gettime(CLOCK_MONOTONIC, &tstart);
 	while (!glfwWindowShouldClose(window)) {
-		glClearColor(1,1,1,1);
+		glClearColor((float)135/255.,(float)206/255.,(float)235/255.,1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		// glLineWidth(100);
-		// exit(42);
+		DrawRectangle(makeVector2i(0, Height/2.0),makeVector2i(Width,Height/2.0), createColor((float)249/255.,(float)97/255.,(float)97/255.));
 
 		for (int i = 0; i < Width; ++i) {
-			// printf("cast %f %f\n", posX, posY);
 			float angleForCast = player.angle - (fov / 2)  + ((fov / (float)Width)*(float)i);
 			struct cast value = RayCast(player.posX, player.posY, angleForCast, map, mapSize);
-			// float valueH = RayCast(player.posX, player.posY, player.angle, map, mapSize);
 			if (value.distance == -1.0)
 				continue;
 			value.distance = value.distance * cos((player.angle - angleForCast) * (M_PI / 180.0));
 			value.distance = Height / value.distance;
-			// printf("wall height:%f\n", value.distance);
-			// printf("%f\n", player.angle - angleForCast);
 
-			// printf("value.distance:%f\n", angleForCast);
-			printf("(float)(value.type)/255.f=%f\n", (float)(value.type)/255.f);
-			DrawVerticalLine(i, value.distance, createColor(1,0,0));
+			float color = (float)(value.type - 65) / 25;
+			DrawVerticalLine(i, value.distance, createColor(color,color,color));
 		}
+		nbFrame++;
+
+		glfwPollEvents();
+		HandleInput(window);
+
 
 		glfwSwapBuffers(window);
-		// angle += 0.1;
-		glfwPollEvents();
-		printf("Angle: %f Pos: %f %f\r", player.angle, player.posX, player.posY);
+    	clock_gettime(CLOCK_MONOTONIC, &tend);
+		if (((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - 
+           ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec) > 0.5) {
+			printf("fps: %4d\n", nbFrame*2);
+			nbFrame = 0;
+    		clock_gettime(CLOCK_MONOTONIC, &tstart);
+		} else {
+		// 	printf("le delta %f\n", ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - 
+        //    ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
+		}
 	}
 }
 
-
-int main(int ac, char** av) {
-	//Init GLFW Window
-	GLFWwindow* window = InitGraphics(ac, av);
+void startGame() {
+	// Init GLFW Window
+	GLFWwindow* window = InitGraphics();
 	player = InitPlayer();
 	player.angle = 90.;
 	player.posX = 2;
 	player.posY = 2;
-	//Init keyboard input
+	// Init keyboard input
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, cursor_position_callback);
+	// Change display to orthogonal --> closer to a framebuffer
 	glOrtho(0, Width, Height, 0, 0, 1);
 
 	//Start main loop
 	gameUpdate(window);
+}
+
+void startOpti(int ac, char** av) {
+	(void)ac;
+	int nbIterations = atoi(av[1]);
+	char** map = InitMap(100);
+
+    struct timespec tstart={0,0}, tend={0,0};
+    clock_gettime(CLOCK_MONOTONIC, &tstart);
+	for (int i = 0; i < nbIterations; ++i) {
+		RayCast(1.5, 1.5, 270.0, map, 100);
+	}
+    clock_gettime(CLOCK_MONOTONIC, &tend);
+	printf("some_long_computation took about %.5f seconds\n",
+           ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - 
+           ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
+
+
+}
+
+int main(int ac, char** av) {
+	int noAction = 1;
+	for (int i = 0; i < ac; i++) {
+		if (strcmp(av[i], "--opti") == 0) {
+			startOpti(ac , &av[i]);
+			noAction = 0;
+		}
+	}
+	if (noAction) {
+		startGame();
+	}
+	return 0;
 }

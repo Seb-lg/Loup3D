@@ -6,6 +6,10 @@ struct player {
     float posY;
 
     float angle;
+
+    // Private members used only for function memory
+    float mouseX;
+    float mouseY;
 };
 
 struct player InitPlayer();
