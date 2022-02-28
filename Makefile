@@ -4,6 +4,8 @@ SRC	=	main.c				\
 		src/inputs.c		\
 		src/struct/color.c	\
 		src/struct/player.c	\
+		src/struct/vector.c	\
+		src/struct/cast.c	\
 
 OBJ = $(SRC:.c=.o)
 
