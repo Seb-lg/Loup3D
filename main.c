@@ -12,7 +12,6 @@ struct player player;
 
 void gameUpdate(GLFWwindow* window) {
 	int mapSize = 100;
-	float fov = 60.;
 	char** map = InitMap(mapSize);
 	int nbFrame = 0;
 
