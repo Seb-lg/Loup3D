@@ -1,17 +1,17 @@
 SRC	=	main.c				\
 		src/graphics.c		\
-		src/gaming.c		\
 		src/inputs.c		\
+		src/game_engine.c	\
+		src/struct/cast.c	\
 		src/struct/color.c	\
 		src/struct/player.c	\
 		src/struct/vector.c	\
-		src/struct/cast.c	\
 
 OBJ = $(SRC:.c=.o)
 
 CFLAGS += -g -Werror -Wextra -I./include
 
-# CFLAGS += -o3
+CFLAGS += -pg
 
 CFLAGS += -lglfw -lGL -lm
 

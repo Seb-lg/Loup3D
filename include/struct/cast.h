@@ -4,8 +4,10 @@
 struct cast {
     float distance;
     char type;
+
+    float hitpoint;
 };
 
-struct cast makeCast(float distance, char type);
+struct cast makeCast(float distance, char type, float hitpoint);
 
 #endif

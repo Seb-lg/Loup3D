@@ -5,7 +5,7 @@
 #include <math.h>
 
 #include "../include/struct/vector.h"
-#include "../include/gaming.h"
+#include "../include/game_engine.h"
 #include "../include/assert.h"
 #include "../include/conf.h"
 
@@ -84,14 +84,24 @@ struct cast RayCast(float posX, float posY, float angle, char** map, int size) {
 
         // Test tile at new test point
         if (rayPos.x >= 0 && rayPos.x < size && rayPos.y >= 0 && rayPos.y < size) {
-            if (map[(int)rayPos.x][(int)rayPos.y] != ' ')
+            if (map[(int)rayPos.x][(int)rayPos.y] != ' ') {
                 bTileFound = 1;
+            }
         } else {
-            return makeCast(-1, ' ');
+            return makeCast(-1, ' ', 0);
         }
     }
+    
+    float hitpoint;
+    if (ABS(rayHypot.x) > ABS(rayHypot.y)) {
+        hitpoint = ((rayPos.x - (float)floor(rayPos.x)));
 
-    return makeCast(sqrt(((rayPos.x-posX)*(rayPos.x-posX))+((rayPos.y-posY)*(rayPos.y-posY))), map[(int)rayPos.x][(int)rayPos.y]);
+    } else {
+        hitpoint = ((rayPos.y - (float)floor(rayPos.y)));
+    }
+    return makeCast(sqrt(((rayPos.x-posX)*(rayPos.x-posX))+((rayPos.y-posY)*(rayPos.y-posY))),
+                    map[(int)rayPos.x][(int)rayPos.y],
+                    hitpoint);
 }
 
 

@@ -4,7 +4,7 @@
 
 #include "./include/struct/player.h"
 #include "./include/graphics.h"
-#include "./include/gaming.h"
+#include "./include/game_engine.h"
 #include "./include/inputs.h"
 #include "./include/conf.h"
 
@@ -31,7 +31,7 @@ void gameUpdate(GLFWwindow* window) {
 			value.distance = Height / value.distance;
 
 			float color = (float)(value.type - 65) / 25;
-			DrawVerticalLine(i, value.distance, createColor(color,color,color));
+			DrawVerticalLine(i, value.distance, createColor(color,color,value.hitpoint));
 		}
 		nbFrame++;
 
