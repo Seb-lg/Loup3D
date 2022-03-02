@@ -40,8 +40,10 @@ void gameUpdate(GLFWwindow *window, char **map, size_t mapHeight) {
       value.distance = Height / value.distance;
 
       float color = (float)(value.type - 65) / 25;
-      DrawVerticalLine(i, value.distance,
-                       createColor(color, color, value.hitpoint));
+    //   DrawVerticalLine(i, value.distance,
+    //                    createColor(color, color, value.hitpoint));
+	  DrawVerticalLineWithTexture(i, value.distance,
+                       img, width * value.hitpoint, height);
     }
     nbFrame++;
 

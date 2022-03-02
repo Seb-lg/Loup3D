@@ -10,7 +10,7 @@
 GLFWwindow *InitGraphics();
 
 void DrawVerticalLine(int pos, int height, struct color color);
-void DrawVerticalLineWithTexture(int pos, int height, struct color color,
+void DrawVerticalLineWithTexture(int pos, int height, unsigned char *img,
                                  int texture_pos, int texture_height);
 void DrawRectangle(struct vector2i pos, struct vector2i size,
                    struct color color);

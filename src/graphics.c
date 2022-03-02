@@ -37,16 +37,35 @@ void DrawVerticalLine(int pos, int height, struct color color) {
   // glVertex3f(400, 100,0.0);
   glEnd();
 }
+struct Point
+{
+    float x, y;
+    unsigned char r, g, b;
+};
+void DrawVerticalLineWithTexture(int pos, int height, unsigned char *img, int texture_pos, int texture_height) {
+    struct Point *points = malloc(sizeof(struct Point) * (texture_height + 1));
+    float yPos = (float)Height / 2 - (float)height / 2;
+    float yDelta = (float)height / (float)texture_height;
+    img+=texture_pos*3;
+    for (int i = 0; i < texture_height; i++) {
+        points[i].x = pos;
+        points[i].y = yPos; yPos+=yDelta;
+        points[i].r = img[0];
+        points[i].g = img[1];
+        points[i].b = img[2];
+        img+=texture_height*3;
+    }
 
-void DrawVerticalLineWithTexture(int pos, int height, struct color color, int texture_pos, int texture_height) {
-  glBegin(GL_LINES);
-  glColor3f(color.r, color.g, color.b);
-  glVertex3f(pos, Height / 2 - height / 2, 0.0);
-  // glVertex3f(00, 200,0.0);
-  glColor3f(color.r, color.g, color.b);
-  glVertex3f(pos, Height / 2 + height / 2, 0.0);
-  // glVertex3f(400, 100,0.0);
-  glEnd();
+
+    glColor3ub( 255, 255, 255 );
+    glEnableClientState( GL_VERTEX_ARRAY );
+    glEnableClientState( GL_COLOR_ARRAY );
+    glVertexPointer( 2, GL_FLOAT, sizeof(struct Point), &points[0].x );
+    glColorPointer( 3, GL_UNSIGNED_BYTE, sizeof(struct Point), &points[0].r );
+    // glLineWidth( 3.0 );
+    // glPointSize(3.0);
+    glDrawArrays( GL_LINE_STRIP, 0, texture_height );
+    free(points);
 }
 
 void DrawRectangle(struct vector2i pos, struct vector2i size,
@@ -122,21 +141,27 @@ unsigned char *load_bmp(char *path, int *width, int *height) {
   // Everything is in memory now, the file wan be closed
   fclose(file);
 
-  if (0) {
     // swap y-axis
     unsigned char *tmpBuffer = (unsigned char *)malloc(width[0] * 3);
     int size = width[0] * 3;
     for (int i = 0; i < height[0] / 2; i++) {
-      // copy row i to tmp
-      memcpy(tmpBuffer, data + width[0] * 3 * i, size);
-      // copy row h-i-1 to i
-      memcpy(data + width[0] * 3 * i, data + width[0] * 3 * (height[0] - i - 1),
-             size);
-      // copy tmp to row h-i-1
-      memcpy(data + width[0] * 3 * (height[0] - i - 1), tmpBuffer, size);
+        // copy row i to tmp
+        memcpy(tmpBuffer, data + width[0] * 3 * i, size);
+        // copy row h-i-1 to i
+        memcpy(data + width[0] * 3 * i, data + width[0] * 3 * (height[0] - i - 1),
+                size);
+        // copy tmp to row h-i-1
+        memcpy(data + width[0] * 3 * (height[0] - i - 1), tmpBuffer, size);
     }
     free(tmpBuffer);
-  }
+
+    unsigned char tmp; 
+    for (int y = 0; y < height[0]; y++)
+    for (int x = 0; x < height[0]; x++) {
+        tmp = data[y*width[0]*3 + (x*3)];
+        data[y*width[0]*3 + (x*3)] = data[y*width[0]*3 + (x*3) + 2];
+        data[y*width[0]*3 + (x*3) + 2] = tmp;
+    }
 
   return data;
 }
