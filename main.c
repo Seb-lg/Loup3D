@@ -7,15 +7,22 @@
 #include "./inc/graphics.h"
 #include "./inc/inputs.h"
 #include "./inc/struct/player.h"
+#include "./inc/utils.h"
 
 struct player player;
 
 void gameUpdate(GLFWwindow *window) {
-  int mapSize = 100;
-  char **map = InitMap(mapSize);
+  size_t mapWidth = 0;
+  size_t mapHeight = 0;
+  char **map = LoadMap("./assets/maps/a.map", &mapWidth, &mapHeight);
+  assert(map != NULL);
+  assert(mapWidth != 0);
+  assert(mapHeight != 0);
+  // printMap(map, mapHeight);
+
   int nbFrame = 0;
   int width, height;
-  unsigned char * img = load_bmp("./assets/A.bmp", &width, &height);
+  unsigned char *img = load_bmp("./assets/A.bmp", &width, &height);
 
   struct timespec tstart = {0, 0}, tend = {0, 0};
   clock_gettime(CLOCK_MONOTONIC, &tstart);
@@ -29,8 +36,8 @@ void gameUpdate(GLFWwindow *window) {
     for (int i = 0; i < Width; ++i) {
       float angleForCast =
           player.angle - (fov / 2) + ((fov / (float)Width) * (float)i);
-      struct cast value =
-          RayCast(player.posX, player.posY, angleForCast, map, mapSize);
+      struct cast value = RayCast(player.posX, player.posY, angleForCast, map,
+                                  max(mapWidth, mapHeight));
       if (value.distance == -1.0)
         continue;
       value.distance =
@@ -60,6 +67,7 @@ void gameUpdate(GLFWwindow *window) {
       //    ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
     }
   }
+  freeMap(map, mapHeight);
 }
 
 void startGame() {
@@ -96,6 +104,8 @@ void startOpti(int ac, char **av) {
 }
 
 int main(int ac, char **av) {
+  int width, height;
+  load_bmp("./assets/A.bmp", &width, &height);
   int noAction = 1;
   for (int i = 0; i < ac; i++) {
     if (strcmp(av[i], "--opti") == 0) {
