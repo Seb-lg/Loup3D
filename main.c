@@ -11,15 +11,7 @@
 
 struct player player;
 
-void gameUpdate(GLFWwindow *window) {
-  size_t mapWidth = 0;
-  size_t mapHeight = 0;
-  char **map = LoadMap("./assets/maps/small.map", &mapWidth, &mapHeight);
-  assert(map != NULL);
-  assert(mapWidth != 0);
-  assert(mapHeight != 0);
-  // printMap(map, mapHeight);
-
+void gameUpdate(GLFWwindow *window, char **map, size_t mapHeight) {
   int nbFrame = 0;
   int width, height;
   unsigned char *img = load_bmp("./assets/A.bmp", &width, &height);
@@ -36,8 +28,11 @@ void gameUpdate(GLFWwindow *window) {
     for (int i = 0; i < Width; ++i) {
       float angleForCast =
           player.angle - (FOV / 2) + ((FOV / (float)Width) * (float)i);
-      struct cast value = RayCast(player.posX, player.posY, angleForCast, map,
-                                  max(mapWidth, mapHeight));
+      // TODO: The 100 value here is arbitrary, it stops the raycasting after
+      // this value is a wall is not hitten before, we should find a values
+      // which makes sense
+      struct cast value =
+          RayCast(player.posX, player.posY, angleForCast, map, 100);
       if (value.distance == -1.0)
         continue;
       value.distance =
@@ -70,7 +65,7 @@ void gameUpdate(GLFWwindow *window) {
   freeMap(map, mapHeight);
 }
 
-void startGame() {
+void startGame(char **map, size_t mapHeight) {
   // Init GLFW Window
   GLFWwindow *window = InitGraphics();
   player = InitPlayer();
@@ -84,37 +79,23 @@ void startGame() {
   glOrtho(0, Width, Height, 0, 0, 1);
 
   // Start main loop
-  gameUpdate(window);
-}
-
-void startOpti(int ac, char **av) {
-  (void)ac;
-  int nbIterations = atoi(av[1]);
-  char **map = InitMap(100);
-
-  struct timespec tstart = {0, 0}, tend = {0, 0};
-  clock_gettime(CLOCK_MONOTONIC, &tstart);
-  for (int i = 0; i < nbIterations; ++i) {
-    RayCast(1.5, 1.5, 270.0, map, 100);
-  }
-  clock_gettime(CLOCK_MONOTONIC, &tend);
-  printf("some_long_computation took about %.5f seconds\n",
-         ((double)tend.tv_sec + 1.0e-9 * tend.tv_nsec) -
-             ((double)tstart.tv_sec + 1.0e-9 * tstart.tv_nsec));
+  gameUpdate(window, map, mapHeight);
 }
 
 int main(int ac, char **av) {
-  int width, height;
-  load_bmp("./assets/A.bmp", &width, &height);
-  int noAction = 1;
-  for (int i = 0; i < ac; i++) {
-    if (strcmp(av[i], "--opti") == 0) {
-      startOpti(ac, &av[i]);
-      noAction = 0;
-    }
+  size_t mapWidth = 0;
+  size_t mapHeight = 0;
+  char **map = NULL;
+  if (ac == 2) {
+    map = LoadMapFromFile(av[1], &mapWidth, &mapHeight);
+    assert(mapWidth != 0);
+    assert(mapHeight != 0);
+  } else {
+    map = CreateRandomMap(100, time(NULL));
   }
-  if (noAction) {
-    startGame();
-  }
+  assert(map != NULL);
+  // printMap(map, mapHeight);
+
+  startGame(map, mapHeight);
   return 0;
 }

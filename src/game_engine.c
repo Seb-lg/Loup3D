@@ -12,32 +12,6 @@
 #define ABS(a) (a < 0 ? -a : a)
 #define SIGN(a, b) (a < 0 && b > 0 ? -a : a > 0 && b < 0 ? -a : a)
 
-char **InitMap(int size) {
-  srand(time(NULL));
-  char **map = malloc(size * sizeof(char *));
-  assert(map != NULL);
-  for (int i = 0; i < size; ++i) {
-    map[i] = malloc(size * sizeof(char));
-    assert(map[i] != NULL);
-    memset(map[i], ' ', size * sizeof(char));
-  }
-
-  for (int y = 0; y < size; ++y) {
-    for (int x = 0; x < size; ++x) {
-      if (x == 0 || y == 0 || x == size - 1 || y == size - 1) {
-        map[x][y] = 'W';
-      } else {
-        map[x][y] = (rand() % 15 == 4 ? 65 + rand() % 25 : ' ');
-      }
-      printf("%c", map[x][y]);
-    }
-    printf("\n");
-  }
-  printf("\n");
-
-  return map;
-}
-
 struct cast RayCast(float posX, float posY, float angle, char **map, int size) {
   angle = angle < 0 ? angle + 360.0 : angle > 360.0 ? angle - 360.0 : angle;
   struct vector2f rayPos = makeVector2f(posX, posY);
