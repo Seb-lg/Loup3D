@@ -10,12 +10,10 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action,
 }
 
 void cursor_position_callback(GLFWwindow *window, double xpos, double ypos) {
-  float sensitivity = 2;
   if (xpos > player.mouseX)
-    player.angle += sensitivity;
+    player.angle += MOUSE_SENSITIVITY;
   else
-    player.angle -= sensitivity;
-
+    player.angle -= MOUSE_SENSITIVITY;
   player.mouseX = xpos;
   player.mouseY = ypos;
 }

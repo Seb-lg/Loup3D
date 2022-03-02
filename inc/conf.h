@@ -6,7 +6,8 @@
 static int Height = 1440;
 static int Width = 2540;
 static int MapSize = 100;
-static float fov = 90.;
+static float FOV = 50.;
+static float MOUSE_SENSITIVITY = 1;
 
 extern struct player player;
 

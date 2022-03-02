@@ -14,7 +14,7 @@ struct player player;
 void gameUpdate(GLFWwindow *window) {
   size_t mapWidth = 0;
   size_t mapHeight = 0;
-  char **map = LoadMap("./assets/maps/a.map", &mapWidth, &mapHeight);
+  char **map = LoadMap("./assets/maps/small.map", &mapWidth, &mapHeight);
   assert(map != NULL);
   assert(mapWidth != 0);
   assert(mapHeight != 0);
@@ -35,7 +35,7 @@ void gameUpdate(GLFWwindow *window) {
 
     for (int i = 0; i < Width; ++i) {
       float angleForCast =
-          player.angle - (fov / 2) + ((fov / (float)Width) * (float)i);
+          player.angle - (FOV / 2) + ((FOV / (float)Width) * (float)i);
       struct cast value = RayCast(player.posX, player.posY, angleForCast, map,
                                   max(mapWidth, mapHeight));
       if (value.distance == -1.0)
