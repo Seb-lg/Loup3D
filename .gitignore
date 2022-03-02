@@ -2,6 +2,7 @@ Loup3D
 .vscode
 .idea
 tests
+vgcore.*
 
 # Prerequisites
 *.d

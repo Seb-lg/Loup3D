@@ -22,10 +22,6 @@ char** InitMap(int size) {
         memset(map[i], ' ', size * sizeof(char));
     }
 
-    // map[10][10] = 'W';
-    // map[11][12] = 'W';
-    // map[12][11] = 'W';
-
     for( int y = 0; y < size; ++y) {
         for(int x = 0; x < size; ++x) {
             if (x == 0 || y == 0 || x == size - 1 || y == size - 1) {

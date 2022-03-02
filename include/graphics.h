@@ -15,6 +15,8 @@ GLFWwindow* InitGraphics();
 void DrawVerticalLine(int pos, int height, struct color color);
 void DrawRectangle(struct vector2i pos, struct vector2i size, struct color color);
 
+unsigned char * load_bmp(char *path,  int *width,  int *height);
+
 
 #endif
 
