@@ -22,7 +22,7 @@ void gameUpdate(GLFWwindow *window) {
 
   int nbFrame = 0;
   int width, height;
-  unsigned char * img = load_bmp("./assets/A.bmp", &width, &height);
+  unsigned char *img = load_bmp("./assets/A.bmp", &width, &height);
 
   struct timespec tstart = {0, 0}, tend = {0, 0};
   clock_gettime(CLOCK_MONOTONIC, &tstart);
@@ -104,11 +104,8 @@ void startOpti(int ac, char **av) {
 }
 
 int main(int ac, char **av) {
-<<<<<<< HEAD
   int width, height;
   load_bmp("./assets/A.bmp", &width, &height);
-=======
->>>>>>> a2b019e546a031e1ae4b2b8caa10945ba92eee83
   int noAction = 1;
   for (int i = 0; i < ac; i++) {
     if (strcmp(av[i], "--opti") == 0) {
