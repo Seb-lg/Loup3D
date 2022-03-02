@@ -9,7 +9,7 @@ SRC	=	main.c				\
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS += -g -Werror -Wextra -I./include
+CFLAGS += -g -Werror -Wextra -I./inc
 
 CFLAGS += -pg
 
