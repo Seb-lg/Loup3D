@@ -1,12 +1,13 @@
+#include <assert.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
-#include "../include/conf.h"
-#include "../include/game_engine.h"
-#include "../include/struct/vector.h"
+#include "../inc/conf.h"
+#include "../inc/game_engine.h"
+#include "../inc/struct/vector.h"
 
 #define ABS(a) (a < 0 ? -a : a)
 #define SIGN(a, b) (a < 0 && b > 0 ? -a : a > 0 && b < 0 ? -a : a)

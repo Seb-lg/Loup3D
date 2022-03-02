@@ -1,4 +1,4 @@
-#include "../../include/struct/player.h"
+#include "../../inc/struct/player.h"
 
 struct player InitPlayer() {
   struct player player;

@@ -1,4 +1,4 @@
-#include "../../include/struct/cast.h"
+#include "../../inc/struct/cast.h"
 
 struct cast makeCast(float distance, char type, float hitpoint) {
   struct cast tmp;
