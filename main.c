@@ -2,11 +2,11 @@
 #include <string.h>
 #include <time.h>
 
-#include "./include/conf.h"
-#include "./include/game_engine.h"
-#include "./include/graphics.h"
-#include "./include/inputs.h"
-#include "./include/struct/player.h"
+#include "./inc/conf.h"
+#include "./inc/game_engine.h"
+#include "./inc/graphics.h"
+#include "./inc/inputs.h"
+#include "./inc/struct/player.h"
 
 struct player player;
 

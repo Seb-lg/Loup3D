@@ -1,4 +1,4 @@
-#include "../../include/struct/color.h"
+#include "../../inc/struct/color.h"
 
 struct color createColor(float r, float g, float b) {
   struct color tmp;

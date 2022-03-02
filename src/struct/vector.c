@@ -1,4 +1,4 @@
-#include "../../include/struct/vector.h"
+#include "../../inc/struct/vector.h"
 
 struct vector2f makeVector2f(float x, float y) {
   struct vector2f tmp;

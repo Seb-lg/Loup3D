@@ -1,5 +1,5 @@
-#include "../include/graphics.h"
-#include "../include/conf.h"
+#include "../inc/graphics.h"
+#include "../inc/conf.h"
 #include <assert.h>
 #include <math.h>
 #include <string.h>
