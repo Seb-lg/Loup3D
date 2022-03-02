@@ -38,6 +38,17 @@ void DrawVerticalLine(int pos, int height, struct color color) {
   glEnd();
 }
 
+void DrawVerticalLineWithTexture(int pos, int height, struct color color, int texture_pos, int texture_height) {
+  glBegin(GL_LINES);
+  glColor3f(color.r, color.g, color.b);
+  glVertex3f(pos, Height / 2 - height / 2, 0.0);
+  // glVertex3f(00, 200,0.0);
+  glColor3f(color.r, color.g, color.b);
+  glVertex3f(pos, Height / 2 + height / 2, 0.0);
+  // glVertex3f(400, 100,0.0);
+  glEnd();
+}
+
 void DrawRectangle(struct vector2i pos, struct vector2i size,
                    struct color color) {
   glColor3f(color.r, color.g, color.b);
@@ -47,55 +58,6 @@ void DrawRectangle(struct vector2i pos, struct vector2i size,
   glVertex3f(pos.x + size.x, pos.y + size.y, 0);
   glVertex3f(pos.x, pos.y + size.y, 0);
   glEnd();
-}
-
-#define DATA_OFFSET_OFFSET 0x000A
-#define WIDTH_OFFSET 0x0012
-#define HEIGHT_OFFSET 0x0016
-#define BITS_PER_PIXEL_OFFSET 0x001C
-#define HEADER_SIZE 14
-#define INFO_HEADER_SIZE 40
-#define NO_COMPRESION 0
-#define MAX_NUMBER_OF_COLORS 0
-#define ALL_COLORS_REQUIRED 0
-
-typedef unsigned int int32;
-typedef short int16;
-typedef unsigned char byte;
-
-void ReadImage(const char *fileName, byte **pixels, int32 *width, int32 *height,
-               int32 *bytesPerPixel) {
-  FILE *imageFile = fopen(fileName, "rb");
-  if (imageFile == NULL) {
-    printf("file %s not found\n", fileName);
-    exit(84);
-  }
-  int32 dataOffset;
-  fseek(imageFile, DATA_OFFSET_OFFSET, SEEK_SET);
-  fread(&dataOffset, 4, 1, imageFile);
-  fseek(imageFile, WIDTH_OFFSET, SEEK_SET);
-  fread(width, 4, 1, imageFile);
-  fseek(imageFile, HEIGHT_OFFSET, SEEK_SET);
-  fread(height, 4, 1, imageFile);
-  int16 bitsPerPixel;
-  fseek(imageFile, BITS_PER_PIXEL_OFFSET, SEEK_SET);
-  fread(&bitsPerPixel, 2, 1, imageFile);
-  *bytesPerPixel = ((int32)bitsPerPixel) / 8;
-
-  int paddedRowSize =
-      (int)(4 * ceil((float)(*width) / 4.0f)) * (*bytesPerPixel);
-  int unpaddedRowSize = (*width) * (*bytesPerPixel);
-  int totalSize = unpaddedRowSize * (*height);
-  *pixels = (byte *)malloc(totalSize);
-  int32 i = 0;
-  byte *currentRowPointer = *pixels + ((*height - 1) * unpaddedRowSize);
-  for (i = 0; i < *height; i++) {
-    fseek(imageFile, dataOffset + (i * paddedRowSize), SEEK_SET);
-    fread(currentRowPointer, 1, unpaddedRowSize, imageFile);
-    currentRowPointer -= unpaddedRowSize;
-  }
-
-  fclose(imageFile);
 }
 
 unsigned char *load_bmp(char *path, int *width, int *height) {
