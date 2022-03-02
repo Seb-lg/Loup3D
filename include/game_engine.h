@@ -5,13 +5,10 @@
 
 #include "./struct/cast.h"
 
-char**
-InitMap(int size);
+char **InitMap(int size);
 
-struct cast
-RayCast(float posX, float posY, float angle, char** map, int size);
+struct cast RayCast(float posX, float posY, float angle, char **map, int size);
 
-void HandleInput(GLFWwindow* );
-
+void HandleInput(GLFWwindow *);
 
 #endif

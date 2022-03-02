@@ -2,14 +2,14 @@
 #define __MY_PLAYER__
 
 struct player {
-    float posX;
-    float posY;
+  float posX;
+  float posY;
 
-    float angle;
+  float angle;
 
-    // Private members used only for function memory
-    float mouseX;
-    float mouseY;
+  // Private members used only for function memory
+  float mouseX;
+  float mouseY;
 };
 
 struct player InitPlayer();
