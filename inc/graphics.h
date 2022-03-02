@@ -1,12 +1,11 @@
 #ifndef __MY_GRAPHICS__
 #define __MY_GRAPHICS__
 
+#include "./struct/color.h"
+#include "./struct/vector.h"
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "./struct/color.h"
-#include "./struct/vector.h"
 
 GLFWwindow *InitGraphics();
 
