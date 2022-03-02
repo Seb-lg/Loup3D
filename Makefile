@@ -11,7 +11,7 @@ OBJ = $(SRC:.c=.o)
 
 CFLAGS += -g -Werror -Wextra -I./include
 
-CFLAGS += -pg
+# CFLAGS += -pg
 
 CFLAGS += -lglfw -lGL -lm
 

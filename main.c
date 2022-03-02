@@ -14,6 +14,8 @@ void gameUpdate(GLFWwindow *window) {
   int mapSize = 100;
   char **map = InitMap(mapSize);
   int nbFrame = 0;
+  int width, height;
+  unsigned char * img = load_bmp("./assets/A.bmp", &width, &height);
 
   struct timespec tstart = {0, 0}, tend = {0, 0};
   clock_gettime(CLOCK_MONOTONIC, &tstart);
@@ -94,9 +96,6 @@ void startOpti(int ac, char **av) {
 }
 
 int main(int ac, char **av) {
-  int width, height;
-  load_bmp("./assets/A.bmp", &width, &height);
-  exit(0);
   int noAction = 1;
   for (int i = 0; i < ac; i++) {
     if (strcmp(av[i], "--opti") == 0) {

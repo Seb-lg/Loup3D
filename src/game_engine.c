@@ -4,7 +4,6 @@
 #include <string.h>
 #include <time.h>
 
-#include "../include/assert.h"
 #include "../include/conf.h"
 #include "../include/game_engine.h"
 #include "../include/struct/vector.h"
