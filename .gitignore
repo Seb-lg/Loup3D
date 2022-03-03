@@ -1,8 +1,14 @@
 Loup3D
 .vscode
 .idea
+.cmake
 tests
 vgcore.*
+build.ninja
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles
+.ninja*
 
 # Prerequisites
 *.d
