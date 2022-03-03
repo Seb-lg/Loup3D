@@ -24,8 +24,8 @@ void gameUpdate(GLFWwindow *window, char **map, size_t mapHeight) {
     glClearColor((float)135 / 255., (float)206 / 255., (float)235 / 255., 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     DrawRectangle(
-        makeVector2i(0, WINDOW_HEIGHT / 2.0),
-        makeVector2i(WINDOW_WIDTH, WINDOW_HEIGHT / 2.0),
+        makeVector2i(0, (WINDOW_HEIGHT / 2) - (int)player.sightHeight),
+        makeVector2i(WINDOW_WIDTH, WINDOW_HEIGHT * 2.0),
         createColor((float)249 / 255., (float)97 / 255., (float)97 / 255.));
 
     for (int i = 0; i < WINDOW_WIDTH; ++i) {
