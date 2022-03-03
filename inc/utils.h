@@ -42,6 +42,7 @@ char **LoadMapFromFile(char *mapName, size_t *width, size_t *height) {
   }
   *height = lineCount;
   free(lineBuf);
+  free(filePath);
   fclose(fp);
   printf("[+] - Successfully Loaded map file %s\n", mapName);
   return map;

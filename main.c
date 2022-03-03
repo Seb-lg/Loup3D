@@ -67,15 +67,19 @@ void gameUpdate(GLFWwindow *window, char **map, size_t mapHeight) {
       //    ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
     }
   }
+  freeMap(map, mapHeight);
+  free(img);
   glfwDestroyWindow(window);
   glfwTerminate();
-  freeMap(map, mapHeight);
 }
 
 void startGame(char **map, size_t mapHeight) {
   // Init GLFW Window
   GLFWwindow *window = InitGraphics();
   player = InitPlayer();
+  player.angle = 90.;
+  player.mouseX = 0.;
+  player.mouseY = 0.;
   player.angle = 90.;
   player.posX = 2;
   player.posY = 2;
