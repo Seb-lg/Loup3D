@@ -44,7 +44,7 @@ struct Point
 };
 void DrawVerticalLineWithTexture(int pos, int height, unsigned char *img, int texture_pos, int texture_height) {
     struct Point *points = malloc(sizeof(struct Point) * (texture_height + 1));
-    float yPos = (float)Height / 2 - (float)height / 2;
+    float yPos = (float)Height / 2 - (float)height / 2 - player.sightHeight;
     float yDelta = (float)height / (float)texture_height;
     img+=texture_pos*3;
     for (int i = 0; i < texture_height; i++) {
