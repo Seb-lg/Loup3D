@@ -44,11 +44,16 @@ void cursor_position_callback(GLFWwindow *window, double xpos, double ypos) {
     player.angle -= notZero(MOUSE_SENSITIVITY * absf(player.mouseX - xpos));
 
   if (ypos > player.mouseY && absf(player.mouseY - ypos) != 0)
-    player.sightHeight += notZero((MOUSE_SENSITIVITY*8) * absf(player.mouseY - ypos));
+    player.sightHeight +=
+        notZero((MOUSE_SENSITIVITY * 8) * absf(player.mouseY - ypos));
   else if (absf(player.mouseY - ypos) != 0)
-    player.sightHeight -= notZero((MOUSE_SENSITIVITY*8) * absf(player.mouseY - ypos));
+    player.sightHeight -=
+        notZero((MOUSE_SENSITIVITY * 8) * absf(player.mouseY - ypos));
 
-    player.mouseX = xpos;
-    player.mouseY = ypos;
-    player.sightHeight = player.sightHeight < -Height ? -Height : player.sightHeight > Height ? Height : player.sightHeight;
+  player.mouseX = xpos;
+  player.mouseY = ypos;
+  player.sightHeight = player.sightHeight < -WINDOW_HEIGHT ? -WINDOW_HEIGHT
+                       : player.sightHeight > WINDOW_HEIGHT
+                           ? WINDOW_HEIGHT
+                           : player.sightHeight;
 }
