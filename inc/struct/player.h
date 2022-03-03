@@ -6,6 +6,7 @@ struct player {
   float posY;
 
   float angle;
+  float sightHeight;
 
   // Private members used only for function memory
   float mouseX;

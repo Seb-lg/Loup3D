@@ -3,6 +3,9 @@
 #include "../inc/conf.h"
 #include "../inc/inputs.h"
 
+float absf(float x) { return x < 0.0f ? -x : x; }
+float notZero(float x) { return x == 0.0f ? 1000000000 : x; }
+
 void HandleInput(GLFWwindow *window) {
   if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
     player.posX += cos(player.angle * (M_PI / 180.0)) / 10;
@@ -35,10 +38,17 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action,
 }
 
 void cursor_position_callback(GLFWwindow *window, double xpos, double ypos) {
-  if (xpos > player.mouseX)
-    player.angle += MOUSE_SENSITIVITY;
-  else
-    player.angle -= MOUSE_SENSITIVITY;
-  player.mouseX = xpos;
-  player.mouseY = ypos;
+  if (xpos > player.mouseX && absf(player.mouseX - xpos) != 0)
+    player.angle += notZero(MOUSE_SENSITIVITY * absf(player.mouseX - xpos));
+  else if (absf(player.mouseX - xpos) != 0)
+    player.angle -= notZero(MOUSE_SENSITIVITY * absf(player.mouseX - xpos));
+
+  if (ypos > player.mouseY && absf(player.mouseY - ypos) != 0)
+    player.sightHeight += notZero((MOUSE_SENSITIVITY*8) * absf(player.mouseY - ypos));
+  else if (absf(player.mouseY - ypos) != 0)
+    player.sightHeight -= notZero((MOUSE_SENSITIVITY*8) * absf(player.mouseY - ypos));
+
+    player.mouseX = xpos;
+    player.mouseY = ypos;
+    player.sightHeight = player.sightHeight < -Height ? -Height : player.sightHeight > Height ? Height : player.sightHeight;
 }
