@@ -18,16 +18,19 @@ void gameUpdate(GLFWwindow *window, char **map, size_t mapHeight) {
 
   struct timespec tstart = {0, 0}, tend = {0, 0};
   clock_gettime(CLOCK_MONOTONIC, &tstart);
+
   while (!glfwWindowShouldClose(window)) {
+    printf("%d\n", WINDOW_WIDTH);
     glClearColor((float)135 / 255., (float)206 / 255., (float)235 / 255., 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     DrawRectangle(
-        makeVector2i(0, Height / 2.0), makeVector2i(Width, Height / 2.0),
+        makeVector2i(0, WINDOW_HEIGHT / 2.0),
+        makeVector2i(WINDOW_WIDTH, WINDOW_HEIGHT / 2.0),
         createColor((float)249 / 255., (float)97 / 255., (float)97 / 255.));
 
-    for (int i = 0; i < Width; ++i) {
+    for (int i = 0; i < WINDOW_WIDTH; ++i) {
       float angleForCast =
-          player.angle - (FOV / 2) + ((FOV / (float)Width) * (float)i);
+          player.angle - (FOV / 2) + ((FOV / (float)WINDOW_WIDTH) * (float)i);
       // TODO: The 100 value here is arbitrary, it stops the raycasting after
       // this value is a wall is not hitten before, we should find a values
       // which makes sense
@@ -37,13 +40,13 @@ void gameUpdate(GLFWwindow *window, char **map, size_t mapHeight) {
         continue;
       value.distance =
           value.distance * cos((player.angle - angleForCast) * (M_PI / 180.0));
-      value.distance = Height / value.distance;
+      value.distance = WINDOW_HEIGHT / value.distance;
 
       float color = (float)(value.type - 65) / 25;
-    //   DrawVerticalLine(i, value.distance,
-    //                    createColor(color, color, value.hitpoint));
-	  DrawVerticalLineWithTexture(i, value.distance,
-                       img, width * value.hitpoint, height);
+      //   DrawVerticalLine(i, value.distance,
+      //                    createColor(color, color, value.hitpoint));
+      DrawVerticalLineWithTexture(i, value.distance, img,
+                                  width * value.hitpoint, height);
     }
     nbFrame++;
 
@@ -64,6 +67,8 @@ void gameUpdate(GLFWwindow *window, char **map, size_t mapHeight) {
       //    ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
     }
   }
+  glfwDestroyWindow(window);
+  glfwTerminate();
   freeMap(map, mapHeight);
 }
 
@@ -78,7 +83,7 @@ void startGame(char **map, size_t mapHeight) {
   glfwSetKeyCallback(window, key_callback);
   glfwSetCursorPosCallback(window, cursor_position_callback);
   // Change display to orthogonal --> closer to a framebuffer
-  glOrtho(0, Width, Height, 0, 0, 1);
+  glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, 1);
 
   // Start main loop
   gameUpdate(window, map, mapHeight);
