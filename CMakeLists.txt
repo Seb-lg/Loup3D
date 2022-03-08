@@ -22,3 +22,9 @@ add_executable(Loup3D
 
 target_link_libraries(Loup3D ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(Loup3D glfw ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES})
+
+find_package(GLEW REQUIRED)
+if (GLEW_FOUND)
+    include_directories(${GLEW_INCLUDE_DIRS})
+    target_link_libraries(Loup3D ${GLEW_LIBRARIES})
+endif()

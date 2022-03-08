@@ -83,7 +83,7 @@ Raycasting::drawMap(std::shared_ptr<Graphic> &window, std::shared_ptr<Player> &p
         value.distance = value.distance * cos((player->angle - angleForCast) * (M_PI / 180.0));
         value.distance = window->height / value.distance;
 
-        window->drawVerticalLineWithTexture(i, value.distance, player, window->textures[value.type].data(),
-                                    800 * value.hitpoint, 800);
+//        window->drawVerticalLineWithTexture(i, value.distance, player, window->textures[value.type].data(), 800 * value.hitpoint, 800);
+        window->drawVerticalLine(i, value.distance, player, {0,1,0});
     }
 }

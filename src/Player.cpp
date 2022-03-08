@@ -4,5 +4,5 @@
 
 #include "Player.hpp"
 
-Player::Player(): posX(1.5), posY(48.8345), angle(90) {
+Player::Player(): posX(15), posY(15), angle(90) {
 }
