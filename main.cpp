@@ -22,6 +22,6 @@ int main(int ac, char **av) {
         }
         fps++;
         input->update(graphic, player);
-        Raycasting::drawMap(graphic, player, map);
+//        Raycasting::drawMap(graphic, player, map);
     }
 }

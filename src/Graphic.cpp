@@ -109,6 +109,79 @@ void Graphic::LoadShader(std::string name) {
     this->shaders[name] = ray_program;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+void Graphic::testShader(std::shared_ptr<Player> &player){
+    std::vector<int> map;
+
+    //  Generate map
+    int size = 100;
+    for (int y = 0; y < size; ++y)
+    for (int x = 0; x < size; ++x) {
+        if (x == 0 || y == 0 || y == size - 1 || x == size - 1)
+                map.push_back(1);
+        else    map.push_back(0);
+    }
+
+    // Pass variables to the shader
+    auto idData = glGetUniformLocation(this->shaders["compute_shader"], "screenSize");
+    glUseProgram(this->shaders["compute_shader"]);
+    glUniform2f(idData, (float)width, (float)height);
+
+    idData = glGetUniformLocation(this->shaders["compute_shader"], "playerPos");
+    glUseProgram(this->shaders["compute_shader"]);
+    glUniform2f(idData, (float)player->posX, (float)player->posY);
+
+    idData = glGetUniformLocation(this->shaders["compute_shader"], "mapSize");
+    glUseProgram(this->shaders["compute_shader"]);
+    glUniform2f(idData, (float)size, (float)size);
+
+    idData = glGetUniformLocation(this->shaders["compute_shader"], "angle");
+    glUseProgram(this->shaders["compute_shader"]);
+    glUniform1f(idData, (float)player->angle);
+
+    idData = glGetUniformLocation(this->shaders["compute_shader"], "map");
+    glUseProgram(this->shaders["compute_shader"]);
+    glGetUniformiv(idData, size*size, map.data());
+
+
+    glUseProgram( quad_program );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 bool Graphic::update(std::shared_ptr<Player> &player) {
     glfwSwapBuffers(this->window);
     glfwPollEvents();
@@ -127,7 +200,7 @@ bool Graphic::update(std::shared_ptr<Player> &player) {
     this->drawRectangle({0, (float)((this->height / 2) - (int)player->sightHeight)},
                         {(float)this->width, (float)(this->height * 2)},
                         {(float)249 / 255., (float)97 / 255., (float)97 / 255.});
-    glUseProgram( quad_program );
+    testShader(player);
     glBindVertexArray( quad_vao );
     glActiveTexture( GL_TEXTURE0 );
     glBindTexture( GL_TEXTURE_2D, tex_output );

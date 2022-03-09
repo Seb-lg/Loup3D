@@ -21,6 +21,7 @@ public:
 
     void InitComputeShader();
     void LoadShader(std::string name);
+    void testShader(std::shared_ptr<Player> &player);
 
 
     bool update(std::shared_ptr<Player> &player);
